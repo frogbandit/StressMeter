@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import socket
 
 app = Flask(__name__)
 
@@ -7,4 +8,8 @@ def index():
    return render_template("home.html")
 
 if __name__ == "__main__":
-   app.run(debug=True)
+   sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   sock.bind(('localhost', 0))
+   port = sock.getsockname()[1]
+   sock.close()
+   app.run(debug=True, port=port)
